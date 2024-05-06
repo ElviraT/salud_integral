@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tickets/destroy/{ticket}', [TicketsController::class, 'destroy'])->name('tickets.destroy');
     // COMENTARIOS
     Route::post('/tickets/comment', [CommentController::class, 'store'])->name('tickets.comment');
+    Route::get('/tickets/{ticket}/img', [CommentController::class, 'img'])->name('tickets.img');
+    Route::delete('/tickets/{images}/destroy_img', [CommentController::class, 'destroy_img'])->name('ticket.destroy_img');
 
     Route::controller(ComboController::class)->prefix('combo')->group(function () {
         Route::match(['get', 'post'], '/{country}/state', 'state');

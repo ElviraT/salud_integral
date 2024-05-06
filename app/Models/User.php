@@ -73,4 +73,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Status::class, 'status', 'id');
     }
+
+    public function comment(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'id_user', 'id');
+    }
+
+    public function imgTicket(): HasMany
+    {
+        return $this->hasMany(ImgTicket::class, 'id_user', 'id');
+    }
 }

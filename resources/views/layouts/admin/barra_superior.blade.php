@@ -3,19 +3,21 @@
     <!--[if BLOCK]><![endif]-->
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card sombra">
-            <div class="card-body">
-                <div class="dash-widget-header">
-                    <span class="dash-widget-icon bg-1">
-                        <i class="fas fa-dollar-sign"></i>
-                    </span>
-                    <div class="dash-count">
-                        <div class="dash-title">Amount Due</div>
-                        <div class="dash-counts">
-                            <p>1,642</p>
+            <a href="{{ route('tickets', '3') }}">
+                <div class="card-body">
+                    <div class="dash-widget-header">
+                        <span class="dash-widget-icon bg-1">
+                            <i class="fa fa-ticket" aria-hidden="true"></i>
+                        </span>
+                        <div class="dash-count">
+                            <div class="dash-title">@lang('Tickets New')</div>
+                            <div class="dash-counts">
+                                <p>{{ $tickets }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="col-xl-3 col-sm-6 col-12">

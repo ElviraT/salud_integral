@@ -138,33 +138,20 @@
                                     <i class="fe fe-file-text"></i>
                                 </span>
                                 <div class="support-details-cont">
-                                    <h6>New Support Ticket</h6>
-                                    <p>3.7MB</p>
+                                    <h6>{{ $item->user->name }}</h6>
+                                    <p>{{ $item->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <a class="btn-action-icon me-2" href="javascript:void(0);" download><i
-                                        class="fe fe-download"></i></a>
-                                <div class="dropdown dropdown-action">
-                                    <a href="#" class="btn-action-icon" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul>
-                                            <li>
-                                                <a class="dropdown-item" href="javascript:void(0);"><i
-                                                        class="far fa-edit me-2"></i>Edit</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="javascript:void(0);"><i
-                                                        class="far fa-trash-alt me-2"></i>Delete</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="javascript:void(0);"><i
-                                                        class="far fa-eye me-2"></i>View</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                    data-bs-record-id="{{ $item->id }}" data-bs-target="#img_details">
+                                    <i class="far fa-eye me-2"></i>@lang('Show')</a>
+
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#confirm-delete"
+                                    data-bs-record-id="{{ $item->id }}" data-bs-record-title="{{ 'la imagen' }}"
+                                    data-bs-action="{{ route('ticket.destroy_img', $item) }}"
+                                    title="{{ __('Delete Image') }}"><i
+                                        class="far fa-trash-alt me-2"></i>@lang('Delete')</a>
                             </div>
                         </div>
                     @endforeach
@@ -198,16 +185,14 @@
                         <div class="comments-details d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
                                 <span class="comments-widget-img rounded-circle d-inline-flex">
-                                    <img class="avatar-img rounded-circle" src="assets/img/profiles/avatar-01.jpg"
-                                        alt="User Image">
+                                    {{-- <img class="avatar-img rounded-circle" src="assets/img/profiles/avatar-01.jpg"
+                                        alt="User Image"> --}}
                                 </span>
                                 <div class="comments-details-cont">
-                                    <h6>Dennis</h6>
+                                    <h6>{{ $comment->user->name }}</h6>
                                     <p>{{ $comment->created_at->diffForHumans() }}</p>
                                 </div>
                             </div>
-                            <a href="#" class="reply-comment d-flex"><span><i
-                                        class="fe fe-corner-down-left me-2"></i></span>Reply</a>
                         </div>
                         <div class="card-describe">
                             <p>{{ $comment->conment }}</p>
@@ -238,4 +223,11 @@
             </div>
         </div>
     </form>
+@endsection
+@section('js')
+    @include('tickets.js')
+@endsection
+@section('modal')
+    @include('modales.images')
+    @include('modales.eliminar')
 @endsection

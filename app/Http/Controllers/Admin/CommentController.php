@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\ImgTicket;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -23,22 +24,35 @@ class CommentController extends Controller
                 $image = $this->_procesarArchivo($request);
                 ImgTicket::create($image);
             }
-            $resultado = ['id_user' => Auth::user()->id, 'id_ticket' => $request->id_ticket, 'conment' => $request->comment];
-            Comment::create($resultado);
+            if ($request->conment) {
+                $resultado = [
+                    'id_user' => Auth::user()->id,
+                    'id_ticket' => $request->id_ticket,
+                    'conment' => $request->conment
+                ];
+                Comment::create($resultado);
+            }
             DB::commit();
 
             Toastr::success(__('added successfully'), 'Comentario');
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollBack();
-            dd($e);
             Toastr::error(__('An error occurred please try again'), 'error');
         }
         return Redirect::back();
     }
-
-    public function separadorDirectorios($path)
+    public function img($ticket)
     {
-        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $path);
+        $img = ImgTicket::where('id', $ticket)->first();
+        return response()->json($img);
+    }
+    public function destroy_img($images)
+    {
+        $image = ImgTicket::where('id', $images)->first();
+        $this->_eliminarArchivo($image->image);
+        $image->delete();
+        Toastr::success(__('Registry successfully deleted'), 'Delete');
+        return redirect()->back();
     }
     private function _procesarArchivo(Request $request)
     {
@@ -58,6 +72,9 @@ class CommentController extends Controller
     private function _eliminarArchivo($name)
     {
         $archivo = self::UPLOAD_PATH . '/' . $name;
-        Storage::disk('public')->delete([$archivo]);
+        app(FilesystemManager::class)->disk('public')->delete($archivo);
+        app(FilesystemManager::class)->disk('local')->delete($archivo);
+        Storage::disk('public')->delete($archivo);
+        Storage::disk('local')->delete($archivo);
     }
 }

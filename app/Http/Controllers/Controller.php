@@ -31,10 +31,9 @@ class Controller extends BaseController
 
     public function set_language($language)
     {
-        if (array_key_exists($language, config('languages'))) {
-            putenv('APP_LOCALE=' . $language);
-            Session::put('language', $language);
-        }
+        putenv('APP_LOCALE=' . $language);
+        Session::put('language', $language);
+
         Artisan::call("config:cache");
         return redirect()->back();
     }
