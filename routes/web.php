@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Admin\ComboController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\MedicalController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -72,7 +73,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/tickets/comment', [CommentController::class, 'store'])->name('tickets.comment');
     Route::get('/tickets/{ticket}/img', [CommentController::class, 'img'])->name('tickets.img');
     Route::delete('/tickets/{images}/destroy_img', [CommentController::class, 'destroy_img'])->name('ticket.destroy_img');
-
+    // USUARIOS MEDICOS
+    Route::get('/medicals', [MedicalController::class, 'index'])->name('medicals');
+    Route::post('/medicals/store', [MedicalController::class, 'store'])->name('medicals.store');
+    Route::get('/medicals/{medical}/edit', [MedicalController::class, 'edit'])->name('medicals.edit');
+    Route::put('/medicals/update/{medical}', [MedicalController::class, 'update'])->name('medicals.update');
+    Route::delete('/medicals/destroy/{medical}', [MedicalController::class, 'destroy'])->name('medicals.destroy');
+    // COMBOS
     Route::controller(ComboController::class)->prefix('combo')->group(function () {
         Route::match(['get', 'post'], '/{country}/state', 'state');
         Route::match(['get', 'post'], '/{state}/city', 'city');

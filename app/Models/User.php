@@ -64,9 +64,9 @@ class User extends Authenticatable
         return $this->belongsTo(ModelHasRole::class, 'id', 'model_id');
     }
 
-    public function userm(): HasMany
+    public function medical(): HasMany
     {
-        return $this->hasMany(Doctor::class, 'idUser');
+        return $this->hasMany(Medical::class, 'id_user');
     }
 
     public function Idstatus(): BelongsTo

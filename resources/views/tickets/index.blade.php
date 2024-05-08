@@ -32,9 +32,9 @@
                             <img src="{{ asset('assets/img/icons/receipt-item.svg') }}" alt="invoices">
                         </span>
                         <div class="dash-count">
-                            <div class="dash-title">Total Tickets</div>
+                            <div class="dash-title">@lang('Total Tickets')</div>
                             <div class="dash-counts">
-                                <p class="mb-0">{{ count($tickets) }}</p>
+                                <p class="mb-0">{{ $total }}</p>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,8 @@
                                 style="border: solid 1px {{ $ticket->priority->color }} !important;
                         color: {{ $ticket->priority->color }} !important;">{{ $ticket->priority->name }}</span>
                             <span class="badge badge-gray-outline me-2">{{ '#' . $ticket->id }}</span>
-                            <span><i class="fe fe-message-square text-gray-light fw-normal me-2"></i>3</span>
+                            <span><i
+                                    class="fe fe-message-square text-gray-light fw-normal me-2"></i>{{ count($ticket->comment) }}</span>
                         </div>
                     </div>
                 </div>

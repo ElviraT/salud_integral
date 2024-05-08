@@ -25,6 +25,7 @@ class TicketsController extends Controller
             ->join('status_tickets', 'tickets.state_id', '=', 'status_tickets.id')
             ->groupBy('status_tickets.name', 'status_tickets.color')
             ->get();
+        $total = Ticket::count('id');
         if (Auth::user()->hasAnyRole('SuperAdmin', 'Admin')) {
             if ($id != 5) {
                 $tickets = Ticket::where('state_id', $id)->orderBy('created_at', 'DESC')->paginate(5);
@@ -38,7 +39,7 @@ class TicketsController extends Controller
                 $tickets = Ticket::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(5);
             }
         }
-        return view('tickets.index', compact('tickets', 'status', 'priorities', 'users', 'ticketCounts'));
+        return view('tickets.index', compact('tickets', 'status', 'priorities', 'users', 'ticketCounts', 'total'));
     }
 
     public function store(Request $request)
@@ -59,16 +60,8 @@ class TicketsController extends Controller
     {
         $comments = Comment::where('id_ticket', $ticket->id)->get();
         $images = ImgTicket::where('id_ticket', $ticket->id)->get();
-
-        // $histories = DB::table('tickets')
-        //     ->leftJoin('img_tickets', 'tickets.id', '=', 'img_tickets.id_ticket')
-        //     ->leftJoin('comments', 'tickets.id', '=', 'comments.id_ticket')
-        //     ->leftJoin('users', 'comments.id_user', '=', 'users.id')
-        //     ->where('tickets.id',  $ticket->id)
-        //     // ->select('users.name as name', 'tickets.created_at as creado','comments.')
-        //     ->get();
-        // dd($histories);
-        return view('tickets.edit', compact('ticket', 'comments', 'images'));
+        $status = StatusTicket::orderBy('id', 'DESC')->get();
+        return view('tickets.edit', compact('ticket', 'comments', 'images', 'status'));
     }
 
     /**

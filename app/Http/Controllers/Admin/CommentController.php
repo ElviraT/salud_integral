@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\ImgTicket;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Filesystem\FilesystemManager;
@@ -31,6 +32,10 @@ class CommentController extends Controller
                     'conment' => $request->conment
                 ];
                 Comment::create($resultado);
+            }
+            if ($request->state_id) {
+                $ticket = Ticket::find($request->id_ticket);
+                $ticket->update(['state_id' => $request->state_id]);
             }
             DB::commit();
 

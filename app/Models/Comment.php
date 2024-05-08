@@ -20,4 +20,9 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
+
+    public function ticket(): HasMany
+    {
+        return $this->hasMany(Ticket::class, 'id');
+    }
 }

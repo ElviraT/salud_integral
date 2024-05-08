@@ -225,6 +225,23 @@
     "Status":"Estatus",
     "Upload a New Photo":"Elegir Nueva Foto",
     "Edit User": "Editar Usuario",
-    "Registrate Users": "Usuarios Registrados"
+    "Registrate Users": "Usuarios Registrados",
+    "Description": "Descripción",
+    "Requester":"Solicitante",
+    "Requested Date":"Fecha de solicitud",
+    "Subject":"Asunto",
+    "Attachments":"Archivos adjuntos",
+    "Add File":"Agregar archivo",
+    "Show":"Mostrar",
+    "Comments":"Comentarios",
+    "Leave a comments":"Deja un comentario",
+    "Medicals":"Médicos",
+    "Medical":"Médico",
+    "Add Medical":"Agregar Médico",
+    "Speciality":"Especialidad",
+    "Edit Medical":"Editar Médico",
+    "User":"Usuario",
+    "Number of School": "Número de Colegio",
+    "Registration": "Registro"
 
 }

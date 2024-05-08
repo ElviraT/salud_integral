@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusSeeder::class);
         $this->call(Priority::class);
         $this->call(StatusTickets::class);
+        $this->call(Speciality::class);
     }
 }

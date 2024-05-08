@@ -156,20 +156,19 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="col-lg-6 col-md-12">
-                    <div class="card-inform">
-                        <div class="ticket-info d-flex align-items-center justify-content-between">
-                            <h6>@lang('History')</h6>
-                        </div>
-                    </div>
-                    <div class="card-inform d-block mt-lg-5 mt-0">
-                        <ul class="activity-feed">
-                            <li class="feed-item">
-                                <span class="feed-text"><strong class="text-gray-dark me-2">John Smith</strong>
-                                    Created a new response Created a new response</span>
-                                <p>30 Dec 2023 01:24AM</p>
-                            </li>
-                        </ul>
+                <div class="col-lg-6 col-md-12 mt-5">
+                    <div class="input-block mb-0">
+                        <label>@lang('Status')</label>
+                        <select name="state_id" class="form-control form-small select">
+                            <option>@lang('Selection item')</option>
+                            @foreach ($status as $item)
+                                @if ($item->id != '5')
+                                    <option value="{{ $item->id }}"
+                                        {{ $item->id == $ticket->state_id ? 'selected' : '' }}>{{ $item->name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -180,13 +179,17 @@
                 <h5>@lang('Comments')</h5>
             </div>
             @foreach ($comments as $comment)
+                @php
+                    $condicion = isset($comment->user->avatar)
+                        ? asset(Storage::url('avatar/' . $comment->user->avatar))
+                        : asset('assets/img/avatar.png');
+                @endphp
                 <div class="card sombra">
                     <div class="card-body">
                         <div class="comments-details d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center">
                                 <span class="comments-widget-img rounded-circle d-inline-flex">
-                                    {{-- <img class="avatar-img rounded-circle" src="assets/img/profiles/avatar-01.jpg"
-                                        alt="User Image"> --}}
+                                    <img class="avatar-img rounded-circle" src="{{ $condicion }}" alt="User Image">
                                 </span>
                                 <div class="comments-details-cont">
                                     <h6>{{ $comment->user->name }}</h6>
@@ -209,10 +212,12 @@
                         <input type="text" name="conment" class="form-control" placeholder="Enter Comments">
                     </div>
                 </div>
-                <div class="col-lg-12 text-end">
+                <div class="col-lg-6 text-end">
+                </div>
+                <div class="col-lg-6 col-12 text-end">
                     <div class="row">
-                        <div class="col-3 ">
-                            <button type="submit" class="btn btn-primary">@lang('Post Comments')</button>
+                        <div class="col-3">
+                            <button type="submit" class="btn btn-primary">@lang('Save')</button>
                         </div>
                         <div class="col-3">
                             <a href="{{ route('tickets', $ticket->statusTicket->id) }}"

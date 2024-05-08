@@ -23,4 +23,9 @@ class Status extends Model
     {
         return $this->hasMany(User::class, 'status');
     }
+
+    public function medical(): HasMany
+    {
+        return $this->hasMany(Medical::class, 'id_status');
+    }
 }

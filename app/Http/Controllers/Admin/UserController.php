@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Illuminate\Support\Arr;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
@@ -122,6 +123,9 @@ class UserController extends Controller
     private function _eliminarArchivo($name)
     {
         $archivo = self::UPLOAD_PATH . '/' . $name;
-        Storage::disk('public')->delete([$archivo]);
+        app(FilesystemManager::class)->disk('public')->delete($archivo);
+        app(FilesystemManager::class)->disk('local')->delete($archivo);
+        Storage::disk('public')->delete($archivo);
+        Storage::disk('local')->delete($archivo);
     }
 }

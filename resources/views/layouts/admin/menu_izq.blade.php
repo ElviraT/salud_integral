@@ -25,12 +25,25 @@
                 </li>
 
                 <li class="menu-title"><span>@lang('User Management')</span></li>
-                <li>
-                    <a class="{{ @request()->routeIs('users') ? 'active' : ' ' }}" href="{{ route('users') }}"><i
-                            class="fe fe-user"></i> <span>
-                            @lang('Users')</span>
-                    </a>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-users"></i> <span> @lang('users')</span> <span
+                            class="menu-arrow"></span></a>
+                    <ul>
+                        <li>
+                            <a class="{{ @request()->routeIs('users') ? 'active' : ' ' }}" href="{{ route('users') }}">
+                                @lang('Users')
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('medicals') }}"
+                                class="nav-link {{ @request()->routeIs('medicals') ? 'active' : ' ' }}">
+                                @lang('Medical')
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
+
                 <li>
                     <a class="{{ @request()->routeIs('permissions') ? 'active' : ' ' }}"
                         href="{{ route('permissions') }}"><i class="fe fe-lock"></i> <span>
