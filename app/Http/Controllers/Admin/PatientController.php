@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Medical;
-use App\Models\Speciality;
+use App\Models\MaritalStatus;
+use App\Models\Patient;
 use App\Models\Status;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -12,23 +12,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-class MedicalController extends Controller
+
+class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $medicals = Medical::all();
-        $specialities = Speciality::all();
+        $patients = Patient::all();
         $status = Status::all();
         $users = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('roles.name', 'Medico')
+            ->where('roles.name', 'Paciente')
             ->where('users.status', 1)
             ->select('users.id as id', DB::raw('CONCAT(users.name, " ", users.last_name) AS name'))
             ->get();
-        return view('medicales.index', compact('medicals', 'users', 'specialities', 'status'));
+        $maritals = MaritalStatus::all();
+        return view('patients.index', compact('patients', 'status', 'users', 'maritals'));
     }
 
     public function store(Request $request)
@@ -36,9 +34,9 @@ class MedicalController extends Controller
         try {
             $resultado = ($request->post());
 
-            $medical = Medical::create($resultado);
+            $patient = Patient::create($resultado);
 
-            Toastr::success(__('added successfully'),  __('Medical'));
+            Toastr::success(__('added successfully'),  __('Patient'));
         } catch (\Illuminate\Database\QueryException $e) {
             Toastr::error(__('An error occurred please try again'), 'error');
         }
@@ -47,8 +45,8 @@ class MedicalController extends Controller
 
     public function edit(string $id)
     {
-        $medical = Medical::find($id);
-        return response()->json($medical);
+        $patient = Patient::find($id);
+        return response()->json($patient);
     }
 
     /**
@@ -58,10 +56,10 @@ class MedicalController extends Controller
     {
         $input = $request->all();
         try {
-            $medical = Medical::find($id);
-            $medical->update($input);
+            $patient = Patient::find($id);
+            $patient->update($input);
 
-            Toastr::success(__('Updated registration'),  __('Medical'));
+            Toastr::success(__('Updated registration'),  __('Patient'));
         } catch (\Illuminate\Database\QueryException $e) {
             Toastr::error(__('An error occurred please try again'), 'error');
         }
@@ -71,10 +69,10 @@ class MedicalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Medical $medical)
+    public function destroy(Patient $patient)
     {
-        $medical->id_status = "2";
-        $medical->update();
+        $patient->id_status = "2";
+        $patient->update();
         Toastr::success(__('Registration Successfully Disabled'), 'Disabled');
         return redirect()->back();
     }

@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Medical extends Model
+class Patient extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'id_user',
         'id_status',
-        'id_speciality',
-        'register',
-        'ncolegio'
+        'id_marital',
+        'ocupation'
     ];
 
     public function user(): BelongsTo
@@ -24,16 +21,12 @@ class Medical extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function speciality(): BelongsTo
+    public function marital(): BelongsTo
     {
-        return $this->belongsTo(Speciality::class, 'id_speciality');
+        return $this->belongsTo(MaritalStatus::class, 'id_marital');
     }
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'id_status');
-    }
-    public function schedule(): HasMany
-    {
-        return $this->hasMany(Schedules::class, 'id_medical');
     }
 }

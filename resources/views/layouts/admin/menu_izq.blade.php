@@ -1,4 +1,4 @@
-<div class="sidebar" id="sidebar">
+<div class="sidebar second" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul class="sidebar-vertical">
@@ -40,7 +40,12 @@
                                 @lang('Medical')
                             </a>
                         </li>
-
+                        <li>
+                            <a href="{{ route('patients') }}"
+                                class="nav-link {{ @request()->routeIs('patients') || @request()->routeIs('patients.family') ? 'active' : ' ' }}">
+                                @lang('Patients')
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -48,6 +53,13 @@
                     <a class="{{ @request()->routeIs('permissions') ? 'active' : ' ' }}"
                         href="{{ route('permissions') }}"><i class="fe fe-lock"></i> <span>
                             @lang('Roles & Permission')</span>
+                    </a>
+                </li>
+                <li class="menu-title"><span>@lang('Medical Management')</span></li>
+                <li>
+                    <a class="{{ @request()->routeIs('consultings') ? 'active' : ' ' }}"
+                        href="{{ route('consultings') }}"><i class="fe fe-clipboard"></i> <span>
+                            @lang('Consulting Room')</span>
                     </a>
                 </li>
                 <li class="menu-title"><span>@lang('Settings')</span></li>

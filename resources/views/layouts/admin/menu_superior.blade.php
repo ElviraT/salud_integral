@@ -39,7 +39,9 @@
      <a class="mobile_btn" id="mobile_btn">
          <i class="fas fa-bars"></i>
      </a>
-
+     @if (@request()->routeIs('dashboard'))
+         <button id="iniciarIntroBtn" class="btn btn-primary mt-2">@lang('Mostrar Recorrido')</button>
+     @endif
      <ul class="nav nav-tabs user-menu">
          <li class="nav-item dropdown has-arrow flag-nav">
              @php

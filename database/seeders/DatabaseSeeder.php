@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(Priority::class);
         $this->call(StatusTickets::class);
         $this->call(Speciality::class);
+        $this->call(Relationship::class);
+        $this->call(Day::class);
     }
 }

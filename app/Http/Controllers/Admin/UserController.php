@@ -37,7 +37,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            $logo = $this->_procesarArchivo($request);
+            if ($request->file('avatar')) {
+                $logo = $this->_procesarArchivo($request);
+            } else {
+                $logo = [];
+            }
             $request['password'] = Hash::make($request['password']);
             $resultado = array_merge($request->post(), $logo);
 

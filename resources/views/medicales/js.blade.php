@@ -34,9 +34,37 @@
         $('#register').val('');
         $('#ncolegio').val('');
     });
-    $(document).ready(function() {
-        var gender = $('#user').val();
-        var country = $('#status').val();
-        var state = $('#speciality').val();
+
+    // MODAL DE HORARIO
+    $(document).on('show.bs.modal', '#add_schedule', function(e) {
+        var modal = $(e.delegateTarget),
+            data = $(e.relatedTarget).data();
+        modal.addClass('loading');
+        $("#form-enviar").attr('action', data.bsAction);
+        $("#method").val('post');
+        modal.removeClass('loading');
+        if (data.bsRecordId != undefined) {
+            $('.title').text("@lang('Edit Schedule')");
+            modal.addClass('loading');
+            $('.modal_registro_schedule_id', modal).val(data.bsRecordId);
+            $.getJSON('../schedules/' + data.bsRecordId + '/edit', function(data) {
+                var obj = data;
+                $('#id_day').val(obj.id_day).trigger('change.select2');
+                $("#form-enviar").attr('action', data.bsAction);
+                $("#method").val('put');
+                $('#start_hour', modal).val(obj.start_hour);
+                $('#end_hour', modal).val(obj.end_hour);
+
+                modal.removeClass('loading');
+            });
+        } else {
+            $('.title').text("@lang('Add Schedule')");
+        }
+    });
+    $(document).on('hidden.bs.modal', '#add_schedule', function(e) {
+        $('#id_day').val('').trigger('change.select2');
+        $("#method").val('post');
+        $('#start_hour').val('');
+        $('#end_hour').val('');
     });
 </script>

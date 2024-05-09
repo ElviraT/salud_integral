@@ -1,9 +1,10 @@
 <div wire:snapshot="{&quot;data&quot;:[],&quot;memo&quot;:{&quot;id&quot;:&quot;2WalgzC1zl6NC32CLUwk&quot;,&quot;name&quot;:&quot;index-cards&quot;,&quot;path&quot;:&quot;\/&quot;,&quot;method&quot;:&quot;GET&quot;,&quot;children&quot;:[],&quot;scripts&quot;:[],&quot;assets&quot;:[],&quot;errors&quot;:[],&quot;locale&quot;:&quot;en&quot;},&quot;checksum&quot;:&quot;3ec6499150cebc75db86015e8d66cae1610eafccf1b98200be916b7faf4b4c12&quot;}"
-    wire:effects="[]" wire:id="2WalgzC1zl6NC32CLUwk" class="row">
+    wire:effects="[]" wire:id="2WalgzC1zl6NC32CLUwk" class="row first">
     <!--[if BLOCK]><![endif]-->
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card sombra">
-            <a href="{{ route('tickets', '3') }}">
+            <a href="{{ route('tickets', '3') }}" data-hint="Haga click en el título y lo llevara al modulo de ticket"
+                data-hint-position="top-right" data-hint-alwaysVisible="true">
                 <div class="card-body">
                     <div class="dash-widget-header">
                         <span class="dash-widget-icon bg-1">

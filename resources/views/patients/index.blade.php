@@ -3,7 +3,7 @@
 @section('content')
     <div class="page-header">
         <div class="content-page-header">
-            <h5>@lang('Medicals')</h5>
+            <h5>@lang('Patients')</h5>
             <div class="list-btn">
                 <ul class="filter-list">
                     <li>
@@ -14,8 +14,8 @@
                     </li>
                     <li>
                         <a class="btn btn-primary" href="#" data-bs-toggle="modal"
-                            data-bs-action="{{ route('medicals.store') }}" data-bs-target="#add_medical"><i
-                                class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Medical')</a>
+                            data-bs-action="{{ route('patients.store') }}" data-bs-target="#add_patient"><i
+                                class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Patient')</a>
                     </li>
                 </ul>
             </div>
@@ -32,18 +32,18 @@
                                 <tr>
                                     <th>@lang('Name')</th>
                                     <th>@lang('Mobile Number')</th>
-                                    <th>@lang('Speciality') </th>
+                                    <th>@lang('Marital State') </th>
                                     <th>@lang('Created on')</th>
                                     <th>@lang('Status')</th>
                                     <th Class="no-sort">@lang('Actions')</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($medicals as $item)
+                                @foreach ($patients as $item)
                                     <tr>
                                         <td>{{ $item->user->name }}&nbsp;{{ $item->user->last_name }}</td>
                                         <td>{{ $item->user->movil }}</td>
-                                        <td>{{ $item->speciality->name }}</td>
+                                        <td>{{ $item->marital->name }}</td>
                                         <td>{{ $item->created_at->format('j F, Y, g:i A') }}</td>
                                         <td><span class="badge"
                                                 style="background-color: #E1FFED !important;
@@ -58,26 +58,26 @@
                                                     <ul>
                                                         <li>
                                                             <a href="#" type="button" data-bs-toggle="modal"
-                                                                data-bs-target="#add_medical" class="btn btn-greys me-2"
+                                                                data-bs-target="#add_patient" class="btn btn-greys me-2"
                                                                 data-bs-record-id="{{ $item->id }}"
-                                                                data-bs-action="{{ route('medicals.update', $item) }}"> <i
+                                                                data-bs-action="{{ route('patients.update', $item) }}"> <i
                                                                     class="fa fa-edit me-1"></i>
-                                                                {{ __('Edit Medical') }}
+                                                                {{ __('Edit Patient') }}
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="{{ route('schedules', ['id' => $item->id]) }}"
+                                                            <a href="{{ route('patients.family', ['id' => $item->id]) }}"
                                                                 class="btn btn-greys me-2"><i
-                                                                    class="fa fa-calendar me-2"></i>@lang('Schedule')</a>
+                                                                    class="fa fa-users me-2"></i>@lang('Family')</a>
                                                         </li>
                                                         <li>
                                                             <a class="btn btn-greys me-2" data-bs-toggle="modal"
                                                                 data-bs-target="#confirm-delete"
                                                                 data-bs-record-id="{{ $item->id }}"
-                                                                data-bs-record-title="{{ 'El Medico ' }}{{ $item->user->name }}&nbsp;{{ $item->user->last_name }}"
-                                                                data-bs-action="{{ route('medicals.destroy', $item) }}"
-                                                                title="{{ __('Delete medicals') }}"><i
-                                                                    class="far fa-trash-alt me-2"></i>@lang('Delete')</a>
+                                                                data-bs-record-title="{{ 'El paciente ' }}{{ $item->user->name }}&nbsp;{{ $item->user->last_name }}"
+                                                                data-bs-action="{{ route('patients.destroy', $item) }}"
+                                                                title="{{ __('Delete patients') }}"><i
+                                                                    class="far fa-trash-alt me-3"></i>@lang('Delete')</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -252,9 +252,9 @@
     </div>
 @endsection
 @section('modal')
-    @include('modales.medicals')
+    @include('modales.patients')
     @include('modales.eliminar')
 @endsection
 @section('js')
-    @include('medicales.js')
+    @include('patients.js')
 @endsection

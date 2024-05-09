@@ -9,7 +9,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Admin\ComboController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\ConsultingRoomController;
 use App\Http\Controllers\Admin\MedicalController;
+use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Admin\PatientFamilyController;
+use App\Http\Controllers\Admin\SheduleController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -79,6 +83,30 @@ Route::middleware('auth')->group(function () {
     Route::get('/medicals/{medical}/edit', [MedicalController::class, 'edit'])->name('medicals.edit');
     Route::put('/medicals/update/{medical}', [MedicalController::class, 'update'])->name('medicals.update');
     Route::delete('/medicals/destroy/{medical}', [MedicalController::class, 'destroy'])->name('medicals.destroy');
+    // USUARIOS PACIENTES
+    Route::get('/patients', [PatientController::class, 'index'])->name('patients');
+    Route::post('/patients/store', [PatientController::class, 'store'])->name('patients.store');
+    Route::get('/patients/{patient}/edit', [PatientController::class, 'edit'])->name('patients.edit');
+    Route::put('/patients/update/{patient}', [PatientController::class, 'update'])->name('patients.update');
+    Route::delete('/patients/destroy/{patient}', [PatientController::class, 'destroy'])->name('patients.destroy');
+    // USUARIOS FAMILIARES PACIENTES
+    Route::get('/patients/family', [PatientFamilyController::class, 'index'])->name('patients.family');
+    Route::post('/patients/family/store', [PatientFamilyController::class, 'store'])->name('patients.family.store');
+    Route::get('/patients/family/{patient}/edit', [PatientFamilyController::class, 'edit'])->name('patients.family.edit');
+    Route::put('/patients/family/update/{patient}', [PatientFamilyController::class, 'update'])->name('patients.family.update');
+    Route::delete('/patients/family/destroy/{patient}', [PatientFamilyController::class, 'destroy'])->name('patients.family.destroy');
+    //CONSULTORIOS
+    Route::get('/consultings', [ConsultingRoomController::class, 'index'])->name('consultings');
+    Route::post('/consultings/store', [ConsultingRoomController::class, 'store'])->name('consultings.store');
+    Route::get('/consultings/{consulting}/edit', [ConsultingRoomController::class, 'edit'])->name('consultings.edit');
+    Route::put('/consultings/update/{consulting}', [ConsultingRoomController::class, 'update'])->name('consultings.update');
+    Route::delete('/consultings/destroy/{consulting}', [ConsultingRoomController::class, 'destroy'])->name('consultings.destroy');
+    //HORARIOS
+    Route::get('/schedules', [SheduleController::class, 'index'])->name('schedules');
+    Route::post('/schedules/store', [SheduleController::class, 'store'])->name('schedules.store');
+    Route::get('/schedules/{schedules}/edit', [SheduleController::class, 'edit'])->name('schedules.edit');
+    Route::put('/schedules/update/{schedules}', [SheduleController::class, 'update'])->name('schedules.update');
+    Route::delete('/schedules/destroy/{schedules}', [SheduleController::class, 'destroy'])->name('schedules.destroy');
     // COMBOS
     Route::controller(ComboController::class)->prefix('combo')->group(function () {
         Route::match(['get', 'post'], '/{country}/state', 'state');

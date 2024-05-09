@@ -68,7 +68,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Medical::class, 'id_user');
     }
-
+    public function patient(): HasMany
+    {
+        return $this->hasMany(Patient::class, 'id_user');
+    }
     public function Idstatus(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'status', 'id');
