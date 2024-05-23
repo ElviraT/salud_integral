@@ -29,13 +29,13 @@ class PermissionController extends Controller
         return view('permissions.create', compact('permission', 'role', 'rolePermissions'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $role = Role::where('id', $request->rol)->first();
 
         $role->syncPermissions($request->permissions);
 
         Toastr::success(__('Added successfully'), 'Permiso');
-        return Redirect::back();
+        return to_route('permissions');
     }
 }

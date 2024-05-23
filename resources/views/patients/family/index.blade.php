@@ -1,83 +1,90 @@
 @extends('layouts.admin.base')
 
 @section('content')
-    <div class="page-header">
-        <div class="content-page-header">
-            <h5>@lang('Patients Family')</h5>
-            <div class="list-btn">
-                <ul class="filter-list">
-                    <li>
-                        <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Filter"><span class="me-2"><img src="{{ asset('assets/img/icons/filter-icon.svg') }}"
-                                    alt="filter"></span>Filter
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn btn-primary" href="#" data-bs-toggle="modal"
-                            data-bs-action="{{ route('patients.family.store') }}" data-bs-target="#add_patientFamily"><i
-                                class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Family')</a>
-                    </li>
-                </ul>
+    <div class="card p-3">
+        <div class="page-header">
+            <div class="content-page-header">
+                <h5>@lang('Patients Family')</h5>
+                <div class="list-btn">
+                    <ul class="filter-list">
+                        <li>
+                            <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="Filter"><span class="me-2"><img src="{{ asset('assets/img/icons/filter-icon.svg') }}"
+                                        alt="filter"></span>Filter
+                            </a>
+                        </li>
+                        @can('patients.family.store')
+                            <li>
+                                <a class="btn btn-primary" href="#" data-bs-toggle="modal"
+                                    data-bs-action="{{ route('patients.family.store') }}" data-bs-target="#add_patientFamily"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Family')</a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card-table">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-center table-hover datatable">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>@lang('Name')</th>
-                                    <th>@lang('Relationship')</th>
-                                    <th>@lang('Marital State') </th>
-                                    <th>@lang('Created on')</th>
-                                    <th Class="no-sort">@lang('Actions')</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($patients as $item)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card-table">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-center table-hover datatable" width="100%">
+                                <thead class="thead-light">
                                     <tr>
-                                        <td>{{ $item->name }}&nbsp;{{ $item->last_name }}</td>
-                                        <td>{{ $item->relacion->name }}</td>
-                                        <td>{{ $item->marital->name }}</td>
-                                        <td>{{ $item->created_at->format('j F, Y, g:i A') }}</td>
-                                        <td class="d-flex align-items-center">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
-                                                    aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="#" type="button" data-bs-toggle="modal"
-                                                                data-bs-target="#add_patientFamily"
-                                                                class="btn btn-greys me-2"
-                                                                data-bs-record-id="{{ $item->id }}"
-                                                                data-bs-action="{{ route('patients.family.update', $item) }}">
-                                                                <i class="fa fa-edit me-1"></i>
-                                                                {{ __('Edit Family') }}
-                                                            </a>
-                                                        </li>
-
-                                                        <li>
-                                                            <a class="btn btn-greys me-2" data-bs-toggle="modal"
-                                                                data-bs-target="#confirm-delete"
-                                                                data-bs-record-id="{{ $item->id }}"
-                                                                data-bs-record-title="{{ 'El paciente ' }}{{ $item->name }}&nbsp;{{ $item->last_name }}"
-                                                                data-bs-action="{{ route('patients.family.destroy', $item) }}"
-                                                                title="{{ __('Delete patients') }}"><i
-                                                                    class="far fa-trash-alt me-3"></i>@lang('Delete')</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <th>@lang('Name')</th>
+                                        <th>@lang('Relationship')</th>
+                                        <th>@lang('Marital State') </th>
+                                        <th>@lang('Created on')</th>
+                                        <th Class="no-sort">@lang('Actions')</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($patients as $item)
+                                        <tr>
+                                            <td>{{ $item->name }}&nbsp;{{ $item->last_name }}</td>
+                                            <td>{{ $item->relacion->name }}</td>
+                                            <td>{{ $item->marital->name }}</td>
+                                            <td>{{ $item->created_at->format('j F, Y, g:i A') }}</td>
+                                            <td class="d-flex align-items-center">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
+                                                        aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul>
+                                                            @can('patients.family.edit')
+                                                                <li>
+                                                                    <a href="#" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#add_patientFamily"
+                                                                        class="btn btn-greys me-2"
+                                                                        data-bs-record-id="{{ $item->id }}"
+                                                                        data-bs-action="{{ route('patients.family.update', $item) }}">
+                                                                        <i class="fa fa-edit me-1"></i>
+                                                                        {{ __('Edit Family') }}
+                                                                    </a>
+                                                                </li>
+                                                            @endcan
+                                                            @can('patients.family.destroy')
+                                                                <li>
+                                                                    <a class="btn btn-greys me-2" data-bs-toggle="modal"
+                                                                        data-bs-target="#confirm-delete"
+                                                                        data-bs-record-id="{{ $item->id }}"
+                                                                        data-bs-record-title="{{ 'El paciente ' }}{{ $item->name }}&nbsp;{{ $item->last_name }}"
+                                                                        data-bs-action="{{ route('patients.family.destroy', $item) }}"
+                                                                        title="{{ __('Delete patients') }}"><i
+                                                                            class="far fa-trash-alt me-3"></i>@lang('Delete')</a>
+                                                                </li>
+                                                            @endcan
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

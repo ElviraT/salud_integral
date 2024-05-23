@@ -13,11 +13,12 @@
                                     alt="filter"></span>Filter
                         </a>
                     </li>
-                    <li>
-                        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#add_ticket"><i
-                                class="fa fa-plus-circle me-2" aria-hidden="true"></i>New
-                            Tickets</a>
-                    </li>
+                    @can('tickets.store')
+                        <li>
+                            <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#add_ticket"><i
+                                    class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('New Tickets')</a>
+                        </li>
+                    @endcan
                 </ul>
             </div>
         </div>
@@ -73,7 +74,8 @@
                             @foreach ($status as $item)
                                 <li>
                                     <a href="{{ route('tickets', $item->id) }}"
-                                        class="{{ $id == $item->id ? 'active' : '' }}">{{ $item->name }}</a>
+                                        class="{{ $id == $item->id ? 'active' : '' }}"
+                                        onclick=" loading_show();">{{ $item->name }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -85,7 +87,9 @@
 
     <div class="comments">
         @foreach ($tickets as $ticket)
-            <a href="{{ route('tickets.edit', $ticket) }}">
+            @can('tickets.edit')
+                <a href="{{ route('tickets.edit', $ticket) }}" onclick=" loading_show();">
+                @endcan
                 <div class="card sombra">
                     <div class="card-body card-support">
                         <div class="comments-details d-flex align-items-center justify-content-between">
@@ -111,7 +115,9 @@
                         </div>
                     </div>
                 </div>
-            </a>
+                @can('tickets.edit')
+                </a>
+            @endcan
         @endforeach
 
         <div class="col-12">

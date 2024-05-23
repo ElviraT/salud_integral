@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ConsultingRoom;
+use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class ConsultingRoomController extends Controller
@@ -13,7 +15,13 @@ class ConsultingRoomController extends Controller
     public function index()
     {
         $consulting = ConsultingRoom::all();
-        return view('consulting.index', compact('consulting'));
+        $medical = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('roles.name', 'Medico')
+            ->where('users.status', 1)
+            ->select('users.id as id', DB::raw('CONCAT(users.name, " ", users.last_name) AS name'))
+            ->get();
+        return view('consulting.index', compact('consulting', 'medical'));
     }
 
     public function store(Request $request)
@@ -22,7 +30,7 @@ class ConsultingRoomController extends Controller
             $resultado = ($request->post());
             $consulting = ConsultingRoom::create($resultado);
 
-            Toastr::success(__('added successfully'),  __('Consulting:' . $request->name));
+            Toastr::success(__('added successfully'),  __('Consulting:') . $request->name);
         } catch (\Illuminate\Database\QueryException $e) {
             Toastr::error(__('An error occurred please try again'), 'error');
         }

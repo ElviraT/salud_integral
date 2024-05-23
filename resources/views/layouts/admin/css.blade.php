@@ -1,5 +1,5 @@
 <style>
-    .modal.loading .modal-content:before {
+    .modal .loading .modal-content:before {
         content: 'Cargando...';
         text-align: center;
         line-height: 155px;
@@ -35,10 +35,11 @@
 
     #sidebar {
         overflow-y: auto !important;
+        margin-bottom: 47px !important;
     }
 
     #sidebar::-webkit-scrollbar {
-        width: 5px;
+        width: 7px;
         /* width of the entire scrollbar */
     }
 

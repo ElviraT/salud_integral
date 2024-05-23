@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Day;
-use App\Models\Medical;
 use App\Models\Schedules;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class SheduleController extends Controller
@@ -17,8 +17,12 @@ class SheduleController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->hasAnyRole('SuperAdmin', 'Admin')) {
+            $shedules = Schedules::all();
+        } else {
+            $shedules = Schedules::where('id', $_GET['id'])->get();
+        }
         $days = Day::all();
-        $shedules = Schedules::all();
         $id_medical = $_GET['id'];
 
         return view('shedules.index', compact('days', 'shedules', 'id_medical'));

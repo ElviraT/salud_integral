@@ -14,8 +14,10 @@
                 var obj = data;
                 $("#form-enviar").attr('action', data.bsAction);
                 $("#method").val('put');
+                $('#id_medical').val(obj.id_medical).trigger('change.select2');
                 $('#name', modal).val(obj.name);
                 $('#phone', modal).val(obj.phone);
+                $('#max_patient', modal).val(obj.max_patient);
                 modal.removeClass('loading');
             });
         } else {
@@ -25,5 +27,8 @@
 
     $(document).on('hidden.bs.modal', '#add_consulting', function(e) {
         $('#name').val('');
+        $('#phone').val('');
+        $('#max_patient').val('');
+        $('#id_medical').val('').trigger('change.select2');
     });
 </script>

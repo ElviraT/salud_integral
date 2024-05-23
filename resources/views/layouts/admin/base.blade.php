@@ -48,16 +48,16 @@
     <link rel="stylesheet" href="{{ asset('assets/css/toastr.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css" />
     <script src="{{ asset('assets/js/layout.js') }}"></script>
+    <link href="{{ asset('css/jquery.loadingModal.css') }}" rel="stylesheet" type="text/css" />
     @include('layouts.admin.css')
+    @yield('style')
 </head>
 
 <body>
 
     <div class="main-wrapper">
-
         @include('layouts.admin.menu_superior')
         @include('layouts.admin.menu_izq')
-
         <div class="page-wrapper">
             <div class="content container-fluid">
                 @yield('content')
@@ -65,7 +65,7 @@
         </div>
     </div>
     @include('layouts.admin.setting')
-
+    @include('layouts.admin.footer')
     <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
@@ -89,6 +89,7 @@
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+    <script src="{{ asset('js/jquery.loadingModal.js') }}" type="text/javascript"></script>
     {!! Toastr::message() !!}
 
     @yield('js')

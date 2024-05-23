@@ -55,11 +55,11 @@
                  </span>
              </a>
              <div class="dropdown-menu dropdown-menu-end">
-                 <a href="{{ route('set_language', ['en']) }}" class="dropdown-item">
+                 <a href="{{ route('set_language', ['en']) }}" class="dropdown-item" onclick=" loading_show();">
                      <img src="{{ asset('assets/img/flags/us.png') }}" width='20%'
                          alt="flag"><span>English</span>
                  </a>
-                 <a href="{{ route('set_language', ['es']) }}" class="dropdown-item">
+                 <a href="{{ route('set_language', ['es']) }}" class="dropdown-item" onclick=" loading_show();">
                      <img src="{{ asset('assets/img/flags/es.png') }}" width='20%'
                          alt="flag"><span>Spanish</span>
                  </a>
@@ -90,12 +90,18 @@
                  <div class="profilemenu">
                      <div class="subscription-menu">
                          <ul>
-                             <li>
-                                 <a class="dropdown-item" href="{{ route('profile.edit') }}">@lang('Profile')</a>
-                             </li>
-                             <li>
-                                 <a class="dropdown-item" href="{{ route('settings') }}">@lang('Settings')</a>
-                             </li>
+                             @can('profile.edit')
+                                 <li>
+                                     <a class="dropdown-item" href="{{ route('profile.edit') }}"
+                                         onclick=" loading_show();">@lang('Profile')</a>
+                                 </li>
+                             @endcan
+                             @can('settings')
+                                 <li>
+                                     <a class="dropdown-item" href="{{ route('settings') }}"
+                                         onclick=" loading_show();">@lang('Settings')</a>
+                                 </li>
+                             @endcan
                          </ul>
                      </div>
                      <div class="subscription-logout">
@@ -117,7 +123,5 @@
                  </div>
              </div>
          </li>
-
      </ul>
-
  </div>

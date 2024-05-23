@@ -144,6 +144,7 @@
     "Actions": "Acciones", 
     "Added successfully": "Agregado Correctamente",
     "Updated registration": "Registro Actualizado" ,
+    "Update":"Actualizar",
     "Permission": "Permiso",              
     "Permissions": "Permisos",
     "User Management": "Gestión de Usuarios",
@@ -264,6 +265,12 @@
     "Edit Schedule": "Editar Horario",
     "Day": "Día",
     "Start Time": "Hora Inicio",
-    "End Time": "Hora Fin"
+    "End Time": "Hora Fin",
+    "Services": "Servicios",
+    "Service": "Servicio",
+    "Add Service": "Agregar Servicio",
+    "Edit Service": "Editar Servicio",
+    "Time Aprox.": "Tiempo Aprox.",
+    "Maximo Patient": "Máximo de Pacientes"
 
 }

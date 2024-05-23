@@ -15,6 +15,7 @@ use DB;
 use Illuminate\Support\Arr;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
@@ -24,7 +25,11 @@ class UserController extends Controller
     const UPLOAD_PATH = 'public/avatar';
     public function index(Request $request)
     {
-        $users = User::orderBy('id', 'DESC')->get();
+        if (Auth::user()->hasAnyRole('SuperAdmin', 'Admin')) {
+            $users = User::orderBy('id', 'DESC')->get();
+        } else {
+            $users = User::where('id', Auth::user()->id)->orderBy('id', 'DESC')->get();
+        }
         $status = Status::all();
         $roles = Role::all();
         $genders = Sex::all();

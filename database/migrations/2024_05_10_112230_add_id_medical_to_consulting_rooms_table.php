@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('schedules', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_day');
-            $table->unsignedBigInteger('id_medical');
-            $table->time('start_hour');
-            $table->time('end_hour');
-            $table->timestamps();
-
-            $table->foreign('id_day')->references('id')->on('days');
+        Schema::table('consulting_rooms', function (Blueprint $table) {
+            $table->unsignedBigInteger('id_medical')->after('phone');
+            $table->integer('max_patient')->after('id_medical');
             $table->foreign('id_medical')->references('id')->on('medicals');
         });
     }
@@ -29,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('schedules');
+        Schema::table('consulting_rooms', function (Blueprint $table) {
+            //
+        });
     }
 };

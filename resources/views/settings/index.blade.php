@@ -133,7 +133,9 @@
                                 <div class="btn-path text-end">
                                     <a href="{{ route('settings') }}"
                                         class="btn btn-cancel bg-primary-light me-3">@lang('Cancel')</a>
-                                    <button type="submit" class="btn btn-primary">@lang('Save Changes')</button>
+                                    @can('users.update')
+                                        <button type="submit" class="btn btn-primary">@lang('Save Changes')</button>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

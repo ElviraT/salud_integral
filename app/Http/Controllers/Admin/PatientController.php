@@ -9,6 +9,7 @@ use App\Models\Status;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -17,7 +18,11 @@ class PatientController extends Controller
 {
     public function index()
     {
-        $patients = Patient::all();
+        if (Auth::user()->hasAnyRole('Paciente')) {
+            $patients = Patient::all();
+        } else {
+            $patients = Patient::where('id', Auth::user()->id)->get();
+        }
         $status = Status::all();
         $users = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')

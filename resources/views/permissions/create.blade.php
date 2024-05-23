@@ -20,41 +20,42 @@
                         <form action="{{ route('permissions.store') }}" method="post">
                             @csrf
                             <input type="hidden" name="rol" id="rol_id" value="{{ $role->id }}" />
-                            <table class="table table-center table-hover datatable" width="100%">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>Modules</th>
-                                        <th>permiso</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            @php
+                                $uri = [];
+                                // $rutas = ['logout', 'dashboard', 'verification'];
+                            @endphp
+                            <div class="card sombra p-5">
+                                @foreach ($permission as $key => $route)
                                     @php
-                                        $uri = '';
+                                        $inicio = explode('.', $route->name);
                                     @endphp
-                                    @foreach ($permission as $route)
-                                        @php
-                                            $inicio = explode('.', $route->name);
-                                        @endphp
-                                        @if ($inicio[0] != 'logout' && $inicio[0] != 'dashboard')
-                                            <tr>
-                                                <td class="role-data">{{ $route->name }}</td>
-                                                <td>
-                                                    <label class="custom_check">
-                                                        <input name="permissions[]" type="checkbox"
-                                                            value="{{ $route->name }}" class="form-control case"
-                                                            {{ in_array($route->id, $rolePermissions) ? 'checked' : '' }} />
-                                                        <span class="checkmark"></span>
-
-                                                    </label>
-                                                </td>
-                                            </tr>
+                                    @if ($inicio[0] != 'logout' && $inicio[0] != 'dashboard')
+                                        @if ($uri != $inicio[0])
+                                            <h2>{{ $inicio[0] }}</h2>
+                                            <hr>
                                         @endif
-                                        @php
-                                            $uri = $inicio[0];
-                                        @endphp
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <ul>
+                                                <li style="margin-inline-start: 1cm;">
+                                                    <td class="role-data">{{ $route->name }}</td>
+                                                    <td>
+                                                        <label class="custom_check">
+                                                            <input name="permissions[]" type="checkbox"
+                                                                value="{{ $route->name }}" class="form-control case"
+                                                                {{ in_array($route->id, $rolePermissions) ? 'checked' : '' }} />
+                                                            <span class="checkmark"></span>
+
+                                                        </label>
+                                                    </td>
+                                                </li><br>
+                                            </ul>
+                                        </tr>
+                                    @endif
+                                    @php
+                                        $uri = $inicio[0];
+                                    @endphp
+                                @endforeach
+                            </div>
                     </div>
                 </div>
             </div>
@@ -62,8 +63,11 @@
     </div>
 
     <div class="col-6 btn-center my-4">
-        <a href="{{ route('permissions') }}" class="btn btn-primary cancel me-2">@lang('Back')</a>
-        <button type="submit" class="btn btn-primary">@lang('Update')</button>
+        <a href="{{ route('permissions') }}" class="btn btn-primary cancel me-2"
+            onclick=" loading_show();">@lang('Back')</a>
+        @can('permissions.store')
+            <button type="submit" class="btn btn-primary">@lang('Update')</button>
+        @endcan
     </div>
     </form>
 @endsection

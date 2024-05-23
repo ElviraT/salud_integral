@@ -1,4 +1,4 @@
-<div class="modal custom-modal fade" id="add_consulting" role="dialog">
+<div class="modal custom-modal fade" id="add_service" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
@@ -14,28 +14,28 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="id" name="id" value=""
-                        class="modal_registro_consulting_id" />
+                        class="modal_registro_service_id" />
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="input-block mb-3">
-                                <label>@lang('Name') <span class="text-danger">*</span></label>
+                                <label>@lang('Name')</label>
                                 <input type="text" name="name" id="name" class="form-control"
                                     placeholder="Enter Name">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="input-block mb-3">
-                                <label>@lang('Phone') <span class="text-danger">*</span></label>
-                                <input type="text" name="phone" id="phone" class="form-control"
-                                    placeholder="Enter Phone">
+                                <label>@lang('Amount')</label>
+                                <input type="number" step="0.01" name="amount" id="amount" class="form-control"
+                                    placeholder="Enter Amount">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="input-block  mb-3">
-                                <label>@lang('Medical')</label>
-                                <select class="form-control form-small select" name="id_medical" id="id_medical">
-                                    <option>@lang('Select Medical')</option>
-                                    @foreach ($medical as $value)
+                                <label>@lang('Speciality')</label>
+                                <select class="form-control form-small select" name="id_speciality" id="id_speciality">
+                                    <option>@lang('Select Speciality')</option>
+                                    @foreach ($speciality as $value)
                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                     @endforeach
                                 </select>
@@ -43,9 +43,9 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="input-block mb-3">
-                                <label>@lang('Maximo Patient')</label>
-                                <input type="number" name="max_patient" id="max_patient" class="form-control"
-                                    placeholder="Enter Maximo Patient">
+                                <label>@lang('Time Aprox.')</label>
+                                <input type="number" name="time_aprox" id="time_aprox" class="form-control"
+                                    placeholder="Enter Time Aprox.">
                             </div>
                         </div>
                     </div>

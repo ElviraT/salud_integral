@@ -10,13 +10,18 @@ use App\Models\Sex;
 use App\Models\Status;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class PatientFamilyController extends Controller
 {
     public function index()
     {
-        $patients = PatientFamily::all();
+        if (Auth::user()->hasAnyRole('SuperAdmin', 'Admin')) {
+            $patients = PatientFamily::where('id_patient', $_GET['id'])->get();
+        } else {
+            $patients = PatientFamily::all();
+        }
         $status = Status::all();
         $maritals = MaritalStatus::all();
         $relacion = Relationship::all();

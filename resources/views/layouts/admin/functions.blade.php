@@ -6,7 +6,28 @@
         $('.title', this).text(data.bsRecordTitle);
         $('.btn-ok', this).data('recordId', data.bsRecordId);
     });
+    // FUNCIONES LOADING
+    $(document).on('ajaxStart', function() {
+        loading_show();
+    })
 
+    $(document).on('ajaxStop', function(start) {
+        loading_hide();
+    });
+
+    function loading_show() {
+        $('body').loadingModal({
+            text: 'Por favor espere...',
+            animation: 'circle',
+        });
+        $('body').loadingModal('show');
+    }
+
+    function loading_hide() {
+        $('body').loadingModal('hide');
+    }
+
+    // FIN FUNCIONES LOADING
     $(document).ready(function() {
         $(window).scroll(function() {
             if ($(window).scrollTop() > 300) {

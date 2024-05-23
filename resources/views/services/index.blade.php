@@ -2,17 +2,16 @@
 
 @section('content')
     <div class="row">
-        @include('settings.menu')
-        <div class="col-xl-9 col-md-8">
+        <div class="col-xl-12">
             <div class="card">
                 <div class="card-body w-100">
                     <div class="content-page-header p-0">
-                        <h5>@lang('Bank Accounts')</h5>
-                        @can('banks.store')
+                        <h5>@lang('Services')</h5>
+                        @can('services.store')
                             <div class="list-btn">
                                 <a class="btn btn-primary" href="#" data-bs-toggle="modal"
-                                    data-bs-action="{{ route('banks.store') }}" data-bs-target="#bank_details"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Bank')</a>
+                                    data-bs-action="{{ route('services.store') }}" data-bs-target="#add_service"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Service')</a>
 
                             </div>
                         @endcan
@@ -26,23 +25,17 @@
                                             <thead class="thead-light">
                                                 <tr>
                                                     <th>@lang('Name')</th>
-                                                    <th>@lang('Bank Name')</th>
-                                                    <th>@lang('Account Number') </th>
                                                     <th>@lang('Amount')</th>
+                                                    <th>@lang('Speciality')</th>
                                                     <th class="no-sort">@lang('Action')</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($banks as $item)
+                                                @foreach ($services as $item)
                                                     <tr>
-                                                        <td>
-                                                            <h2 class="table-avatar">
-                                                                {{ $item->titular }}
-                                                            </h2>
-                                                        </td>
                                                         <td>{{ $item->name }}</td>
-                                                        <td>{{ $item->account }}</td>
-                                                        <td>{{ $item->amount }}</td>
+                                                        <td>{{ number_format($item->amount, 2) }}</td>
+                                                        <td>{{ $item->speciality->name }}</td>
                                                         <td class="d-flex align-items-center">
                                                             <div class="dropdown dropdown-action">
                                                                 <a href="#" class=" btn-action-icon "
@@ -50,28 +43,28 @@
                                                                         class="fas fa-ellipsis-v"></i></a>
                                                                 <div class="dropdown-menu dropdown-menu-end">
                                                                     <ul>
-                                                                        @can('banks.edit')
+                                                                        @can('services.edit')
                                                                             <li>
                                                                                 <a href="#" type="button"
                                                                                     data-bs-toggle="modal"
-                                                                                    data-bs-target="#bank_details"
+                                                                                    data-bs-target="#add_service"
                                                                                     class="btn btn-greys me-2"
                                                                                     data-bs-record-id="{{ $item->id }}"
-                                                                                    data-bs-action="{{ route('banks.update', $item) }}">
+                                                                                    data-bs-action="{{ route('services.update', $item) }}">
                                                                                     <i class="fa fa-edit me-1"></i>
-                                                                                    {{ __('Edit Bank') }}
+                                                                                    {{ __('Edit Service') }}
                                                                                 </a>
                                                                             </li>
                                                                         @endcan
-                                                                        @can('banks.destroy')
+                                                                        @can('services.destroy')
                                                                             <li>
                                                                                 <a class="btn btn-greys me-2"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#confirm-delete"
                                                                                     data-bs-record-id="{{ $item->id }}"
-                                                                                    data-bs-record-title="{{ 'El Banco ' }}{{ $item->name }}"
-                                                                                    data-bs-action="{{ route('banks.destroy', $item) }}"
-                                                                                    title="{{ __('Delete Banks') }}"><i
+                                                                                    data-bs-record-title="{{ 'El servicio ' }}{{ $item->name }}"
+                                                                                    data-bs-action="{{ route('services.destroy', $item) }}"
+                                                                                    title="{{ __('Delete services') }}"><i
                                                                                         class="far fa-trash-alt me-2"></i>@lang('Delete')</a>
                                                                             </li>
                                                                         @endcan
@@ -94,9 +87,9 @@
     </div>
 @endsection
 @section('modal')
-    @include('modales.banks')
+    @include('modales.services')
     @include('modales.eliminar')
 @endsection
 @section('js')
-    @include('settings.js')
+    @include('services.js')
 @endsection

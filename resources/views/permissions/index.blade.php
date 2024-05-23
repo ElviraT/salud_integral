@@ -1,63 +1,70 @@
 @extends('layouts.admin.base')
 @section('content')
-    <div class="page-header">
-        <div class="content-page-header">
-            <h5>@lang('Roles & Permission')</h5>
-            <div class="list-btn">
-                <ul class="filter-list">
-                    <li>
-                        <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Filter"><span class="me-2"><img src="{{ asset('assets/img/icons/filter-icon.svg') }}"
-                                    alt="filter"></span>@lang('Filter')
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn btn-primary" href="#" data-bs-toggle="modal"
-                            data-bs-action="{{ route('roles.store') }}" data-bs-target="#modal_role"><i
-                                class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Roles')</a>
-                    </li>
-                </ul>
+    <div class="card p-3">
+        <div class="page-header">
+            <div class="content-page-header">
+                <h5>@lang('Roles & Permission')</h5>
+                <div class="list-btn">
+                    <ul class="filter-list">
+                        <li>
+                            <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="Filter"><span class="me-2"><img src="{{ asset('assets/img/icons/filter-icon.svg') }}"
+                                        alt="filter"></span>@lang('Filter')
+                            </a>
+                        </li>
+                        @can('roles.store')
+                            <li>
+                                <a class="btn btn-primary" href="#" data-bs-toggle="modal"
+                                    data-bs-action="{{ route('roles.store') }}" data-bs-target="#modal_role"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Roles')</a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card-table">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-center table-hover datatable" width="100%">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>@lang('Role Name')</th>
-                                    <th>@lang('Created at')</th>
-                                    <th width="20" Class="no-sort">@lang('Actions')</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($roles as $item)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card-table">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-center table-hover datatable" width="100%">
+                                <thead class="thead-light">
                                     <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->created_at->format('Y-m-d') }}</td>
-                                        <td class="d-flex align-items-center">
-                                            <a href="#" type="button" data-bs-toggle="modal"
-                                                data-bs-target="#modal_role" class="btn btn-greys me-2"
-                                                data-bs-record-id="{{ $item->id }}"
-                                                data-bs-action="{{ route('roles.update', $item) }}">
-                                                <i class="fa fa-edit me-1"></i>
-                                                {{ __('Edit Role') }}
-                                            </a>
-
-                                            <a href="{{ route('permissions.create', ['rol' => $item]) }}"
-                                                class="btn btn-greys me-2"><i class="fa fa-shield me-1"></i>
-                                                @lang('Permissions')</a>
-                                        </td>
+                                        <th>ID</th>
+                                        <th>@lang('Role Name')</th>
+                                        <th>@lang('Created at')</th>
+                                        <th width="20" Class="no-sort">@lang('Actions')</th>
                                     </tr>
-                                @endforeach
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($roles as $item)
+                                        <tr>
+                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->created_at->format('Y-m-d') }}</td>
+                                            <td class="d-flex align-items-center">
+                                                @can('roles.edit')
+                                                    <a href="#" type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#modal_role" class="btn btn-greys me-2"
+                                                        data-bs-record-id="{{ $item->id }}"
+                                                        data-bs-action="{{ route('roles.update', $item) }}">
+                                                        <i class="fa fa-edit me-1"></i>
+                                                        {{ __('Edit Role') }}
+                                                    </a>
+                                                @endcan
+                                                @can('permissions.create')
+                                                    <a href="{{ route('permissions.create', ['rol' => $item]) }}"
+                                                        class="btn btn-greys me-2" onclick=" loading_show();"><i
+                                                            class="fa fa-shield me-1"></i>
+                                                        @lang('Permissions')</a>
+                                                </td>
+                                            @endcan
+                                        </tr>
+                                    @endforeach
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

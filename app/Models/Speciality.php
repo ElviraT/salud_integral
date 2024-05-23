@@ -14,4 +14,8 @@ class Speciality extends Model
     {
         return $this->hasMany(Medical::class, 'id_speciality');
     }
+    public function service(): HasMany
+    {
+        return $this->hasMany(Speciality::class, 'id_speciality');
+    }
 }

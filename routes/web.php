@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BanksController;
+use App\Http\Controllers\Admin\CitaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Controller;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Admin\ConsultingRoomController;
 use App\Http\Controllers\Admin\MedicalController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\PatientFamilyController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SheduleController;
 use App\Http\Controllers\Admin\TicketsController;
 use App\Http\Controllers\DashboardController;
@@ -76,7 +78,7 @@ Route::middleware('auth')->group(function () {
     // COMENTARIOS
     Route::post('/tickets/comment', [CommentController::class, 'store'])->name('tickets.comment');
     Route::get('/tickets/{ticket}/img', [CommentController::class, 'img'])->name('tickets.img');
-    Route::delete('/tickets/{images}/destroy_img', [CommentController::class, 'destroy_img'])->name('ticket.destroy_img');
+    Route::delete('/tickets/{images}/destroy_img', [CommentController::class, 'destroy_img'])->name('tickets.destroy_img');
     // USUARIOS MEDICOS
     Route::get('/medicals', [MedicalController::class, 'index'])->name('medicals');
     Route::post('/medicals/store', [MedicalController::class, 'store'])->name('medicals.store');
@@ -107,6 +109,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/schedules/{schedules}/edit', [SheduleController::class, 'edit'])->name('schedules.edit');
     Route::put('/schedules/update/{schedules}', [SheduleController::class, 'update'])->name('schedules.update');
     Route::delete('/schedules/destroy/{schedules}', [SheduleController::class, 'destroy'])->name('schedules.destroy');
+    //SERVICIOS
+    Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    Route::post('/services/store', [ServiceController::class, 'store'])->name('services.store');
+    Route::get('/services/{service}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+    Route::put('/services/update/{service}', [ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/services/destroy/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
+    //CITAS
+    Route::get('/citas', [CitaController::class, 'index'])->name('citas');
+    Route::post('/citas/store', [CitaController::class, 'store'])->name('citas.store');
+    Route::get('/citas/{cita}/edit', [CitaController::class, 'edit'])->name('citas.edit');
+    Route::put('/citas/update/{cita}', [CitaController::class, 'update'])->name('citas.update');
+    Route::delete('/citas/destroy/{cita}', [CitaController::class, 'destroy'])->name('citas.destroy');
     // COMBOS
     Route::controller(ComboController::class)->prefix('combo')->group(function () {
         Route::match(['get', 'post'], '/{country}/state', 'state');

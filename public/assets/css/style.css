@@ -2244,7 +2244,7 @@ div.dataTables_wrapper div.dataTables_filter label i {
   }
 }
 .settings-icon {
-  z-index: 999;
+  z-index: 9999;
   position: fixed;
   right: 20px;
   bottom: 20px;
@@ -2278,6 +2278,20 @@ div.dataTables_wrapper div.dataTables_filter label i {
   z-index: 2;
   height: 60px;
   z-index: 999;
+  transition: all 0.2s ease-in-out 0s;
+}
+.footer {
+  background: #fff;
+  -webkit-box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+  box-shadow: 0 1px 2px rgba(56, 65, 74, 0.15);
+  left: 0;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  /* z-index: 2; */
+  padding: 15px;
+  z-index: 999;
+  height: 50px;
   transition: all 0.2s ease-in-out 0s;
 }
 @media (max-width: 1199.98px) {
@@ -5509,6 +5523,10 @@ table .badge {
   max-width: 1300px;
   margin: auto;
 }
+[data-layout-width=boxed] body, [data-layout-width=boxed] .footer {
+  max-width: 1300px;
+  margin: auto;
+}
 [data-layout-width=boxed] .sidebar ul .menu-title {
   display: none !important;
 }
@@ -5729,6 +5747,10 @@ table .badge {
   background: #fff;
   border-color: transparent;
 }
+[data-layout-mode=light] .footer {
+  background: #fff;
+  border-color: transparent;
+}
 [data-layout-mode=light] .header .page-title-box h3 {
   color: #333;
 }
@@ -5843,6 +5865,11 @@ table .badge {
   background: #7539FF;
   border-color: transparent;
 }
+[data-layout-mode=blue] .footer {
+  background: #7539FF;
+  border-color: transparent;
+}
+
 [data-layout-mode=blue] .header .header-left .logo {
   display: block;
   line-height: 60px;
@@ -6282,6 +6309,11 @@ table .badge {
   background: #1C1D22;
   border-color: #1C1D22;
 }
+[data-layout-mode=dark] .footer {
+  background: #1C1D22;
+  border-color: #1C1D22;
+}
+
 [data-layout-mode=dark] .header .user-menu.nav > li > a {
   color: #AAAAAA;
 }
@@ -6940,6 +6972,9 @@ table .badge {
 [data-layout=horizontal] body .header {
   box-shadow: none;
 }
+[data-layout=horizontal] body .footer {
+  box-shadow: none;
+}
 [data-layout=horizontal] body .sidebar {
   width: 100% !important;
   bottom: inherit;
@@ -7224,6 +7259,11 @@ table .badge {
   background: #fff;
   border-color: transparent;
 }
+[data-topbar=light] body .footer {
+  background: #fff;
+  border-color: transparent;
+}
+
 [data-topbar=light] body .header .main-logo {
   background: #fff;
 }
@@ -7346,6 +7386,10 @@ table .badge {
 }
 
 [data-topbar=dark] .header {
+  background: #1C1D22;
+  border-color: #2e3840;
+}
+[data-topbar=dark] .footer {
   background: #1C1D22;
   border-color: #2e3840;
 }

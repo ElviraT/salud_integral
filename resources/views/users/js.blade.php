@@ -11,10 +11,8 @@
         modal.addClass('loading');
         $("#form-enviar").attr('action', data.bsAction);
         $("#method").val('post');
-        modal.removeClass('loading');
         if (data.bsRecordId != undefined) {
             $('.title').text("@lang('Edit User')");
-            modal.addClass('loading');
             $('.modal_registro_user_id', modal).val(data.bsRecordId);
             $.getJSON('../users/' + data.bsRecordId + '/edit', function(data) {
                 var obj = data[0];
@@ -37,7 +35,6 @@
                 if (obj.avatar != null) {
                     $('#blah').attr("src", avatar);
                 }
-                modal.removeClass('loading');
             });
         } else {
             $('.title').text("@lang('Add User')");

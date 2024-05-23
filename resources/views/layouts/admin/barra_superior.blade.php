@@ -4,7 +4,7 @@
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card sombra">
             <a href="{{ route('tickets', '3') }}" data-hint="Haga click en el título y lo llevara al modulo de ticket"
-                data-hint-position="top-right" data-hint-alwaysVisible="true">
+                data-hint-position="top-right" data-hint-alwaysVisible="true" onclick=" loading_show();">
                 <div class="card-body">
                     <div class="dash-widget-header">
                         <span class="dash-widget-icon bg-1">
@@ -23,7 +23,7 @@
     </div>
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card sombra">
-            <a href="{{ route('users') }}">
+            <a href="{{ route('users') }}" onclick=" loading_show();">
                 <div class="card-body">
                     <div class="dash-widget-header">
                         <span class="dash-widget-icon bg-2">

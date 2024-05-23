@@ -1,101 +1,108 @@
 @extends('layouts.admin.base')
 
 @section('content')
-    <div class="page-header">
-        <div class="content-page-header">
-            <h5>@lang('Users')</h5>
-            <div class="list-btn">
-                <ul class="filter-list">
-                    <li>
-                        <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="Filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg"
-                                    alt="filter"></span>Filter
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn btn-primary" href="#" data-bs-toggle="modal"
-                            data-bs-action="{{ route('users.store') }}" data-bs-target="#add_user"><i
-                                class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add User')</a>
-                    </li>
-                </ul>
+    <div class="card p-3">
+        <div class="page-header">
+            <div class="content-page-header">
+                <h5>@lang('Users')</h5>
+                <div class="list-btn">
+                    <ul class="filter-list">
+                        <li>
+                            <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="Filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg"
+                                        alt="filter"></span>Filter
+                            </a>
+                        </li>
+                        @can('users.store')
+                            <li>
+                                <a class="btn btn-primary" href="#" data-bs-toggle="modal"
+                                    data-bs-action="{{ route('users.store') }}" data-bs-target="#add_user"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add User')</a>
+                            </li>
+                        @endcan
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card-table">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-center table-hover datatable">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>@lang('Name')</th>
-                                    <th>@lang('Mobile Number')</th>
-                                    <th>@lang('Role') </th>
-                                    <th>@lang('Created on')</th>
-                                    <th>@lang('Status')</th>
-                                    <th Class="no-sort">@lang('Actions')</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($users as $item)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card-table">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-center table-hover datatable" width="100%">
+                                <thead class="thead-light">
                                     <tr>
-                                        <td>
-                                            <h2 class="table-avatar">
-                                                @php
-                                                    $condicion = isset($item->avatar)
-                                                        ? asset(Storage::url('avatar/' . $item->avatar))
-                                                        : asset('assets/img/avatar.png');
-                                                @endphp
-                                                <a class="avatar avatar-md me-2"><img class="avatar-img rounded-circle"
-                                                        src="{{ $condicion }}" alt="User Image"></a>
-                                                <a>{{ $item->name }}
-                                                    <span><span class="__cf_email__"
-                                                            data-cfemail="0a606562644a6f726b677a666f24696567">{{ $item->email }}</span></span></a>
-                                            </h2>
-                                        </td>
-                                        <td>{{ $item->movil }}</td>
-                                        <td>{{ $item->rol->role->name }}</td>
-                                        <td>{{ $item->created_at->format('j F, Y, g:i A') }}</td>
-                                        <td><span class="badge"
-                                                style="background-color: #E1FFED !important;
-                                                color: {{ $item->Idstatus->color }} !important;">{{ $item->Idstatus->name }}</span>
-                                        </td>
-
-                                        <td class="d-flex align-items-center">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
-                                                    aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="#" type="button" data-bs-toggle="modal"
-                                                                data-bs-target="#add_user" class="btn btn-greys me-2"
-                                                                data-bs-record-id="{{ $item->id }}"
-                                                                data-bs-action="{{ route('users.update', $item) }}">
-                                                                <i class="fa fa-edit me-1"></i>
-                                                                {{ __('Edit User') }}
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" data-bs-toggle="modal"
-                                                                data-bs-target="#confirm-delete"
-                                                                data-bs-record-id="{{ $item->id }}"
-                                                                data-bs-record-title="{{ 'El Usario ' }}{{ $item->name }}"
-                                                                data-bs-action="{{ route('users.destroy', $item) }}"
-                                                                title="{{ __('Delete Users') }}"><i
-                                                                    class="far fa-trash-alt me-2"></i>@lang('Delete')</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <th>@lang('Name')</th>
+                                        <th>@lang('Mobile Number')</th>
+                                        <th>@lang('Role') </th>
+                                        <th>@lang('Created on')</th>
+                                        <th>@lang('Status')</th>
+                                        <th Class="no-sort">@lang('Actions')</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $item)
+                                        <tr>
+                                            <td>
+                                                <h2 class="table-avatar">
+                                                    @php
+                                                        $condicion = isset($item->avatar)
+                                                            ? asset(Storage::url('avatar/' . $item->avatar))
+                                                            : asset('assets/img/avatar.png');
+                                                    @endphp
+                                                    <a class="avatar avatar-md me-2"><img class="avatar-img rounded-circle"
+                                                            src="{{ $condicion }}" alt="User Image"></a>
+                                                    <a>{{ $item->name }}
+                                                        <span><span class="__cf_email__"
+                                                                data-cfemail="0a606562644a6f726b677a666f24696567">{{ $item->email }}</span></span></a>
+                                                </h2>
+                                            </td>
+                                            <td>{{ $item->movil }}</td>
+                                            <td>{{ $item->rol->role->name }}</td>
+                                            <td>{{ $item->created_at->format('j F, Y, g:i A') }}</td>
+                                            <td><span class="badge"
+                                                    style="background-color: #E1FFED !important;
+                                                color: {{ $item->Idstatus->color }} !important;">{{ $item->Idstatus->name }}</span>
+                                            </td>
+
+                                            <td class="d-flex align-items-center">
+                                                <div class="dropdown dropdown-action">
+                                                    <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
+                                                        aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul>
+                                                            @can('users.edit')
+                                                                <li>
+                                                                    <a href="#" type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#add_user" class="btn btn-greys me-2"
+                                                                        data-bs-record-id="{{ $item->id }}"
+                                                                        data-bs-action="{{ route('users.update', $item) }}">
+                                                                        <i class="fa fa-edit me-1"></i>
+                                                                        {{ __('Edit User') }}
+                                                                    </a>
+                                                                </li>
+                                                            @endcan
+                                                            @can('users.destroy')
+                                                                <li>
+                                                                    <a class="dropdown-item" data-bs-toggle="modal"
+                                                                        data-bs-target="#confirm-delete"
+                                                                        data-bs-record-id="{{ $item->id }}"
+                                                                        data-bs-record-title="{{ 'El Usario ' }}{{ $item->name }}"
+                                                                        data-bs-action="{{ route('users.destroy', $item) }}"
+                                                                        title="{{ __('Delete Users') }}"><i
+                                                                            class="far fa-trash-alt me-2"></i>@lang('Delete')</a>
+                                                                </li>
+                                                            @endcan
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
