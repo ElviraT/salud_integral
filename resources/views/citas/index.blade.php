@@ -1,36 +1,58 @@
 @extends('layouts.admin.base')
-@section('style')
-    <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.css') }}">
-@endsection
-@section('content')
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body w-100">
-                    <div class="content-page-header p-0">
-                        <h5>@lang('Agendar Cita')</h5>
-                        @can('citas.store')
-                            <div class="list-btn">
-                                <a class="btn btn-primary" href="#" data-bs-toggle="modal"
-                                    data-bs-action="{{ route('citas.store') }}" data-bs-target="#add_consulting"><i
-                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>@lang('Add Cita')</a>
 
-                            </div>
-                        @endcan
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="card">
-                                <div id="calendar"></div>
+@section('content')
+    <div class="card p-3">
+        <div class="page-header">
+            <div class="content-page-header">
+                <h5>@lang('Schedule Appointment')</h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card-table">
+                    <div class="card-body">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="input-block mb-3">
+                                <label>@lang('Medical')</label>
+                                <select class="form-control form-small select" name="combo_medical" id="combo_medical">
+                                    <option>@lang('Select medical')</option>
+                                    @foreach ($medicals as $value)
+                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="card p-3" id="cita" hidden>
+        <div class="page-header">
+            <div class="content-page-header">
+                <div class="list-btn">
+                    <ul class="filter-list">
+                        <li>
+                            <a href="#" class="btn btn-primary" data-bs-action="{{ route('citas.store') }}"
+                                data-bs-toggle="modal" data-bs-target="#add_event">@lang('Create Event')</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="card-body">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('js')
-    <script src="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/fullcalendar/jquery.fullcalendar.js') }}"></script>
+    @include('citas.js')
+@endsection
+@section('modal')
+    @include('modales.cita')
 @endsection

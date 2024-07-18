@@ -121,6 +121,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/citas/{cita}/edit', [CitaController::class, 'edit'])->name('citas.edit');
     Route::put('/citas/update/{cita}', [CitaController::class, 'update'])->name('citas.update');
     Route::delete('/citas/destroy/{cita}', [CitaController::class, 'destroy'])->name('citas.destroy');
+    Route::get('/citas-mostrar/{id}', [CitaController::class, 'mostrar'])->name('citas.mostrar');
+    Route::get('/medical-time/{id}', [CitaController::class, 'medical_time']);
+    Route::get('/consulta/{id}', [CitaController::class, 'consulta']);
+    Route::get('/consulta2/{id}/{medical}', [CitaController::class, 'consulta2']);
     // COMBOS
     Route::controller(ComboController::class)->prefix('combo')->group(function () {
         Route::match(['get', 'post'], '/{country}/state', 'state');

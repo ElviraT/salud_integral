@@ -22,16 +22,50 @@
                             <input type="hidden" name="rol" id="rol_id" value="{{ $role->id }}" />
                             @php
                                 $uri = [];
-                                // $rutas = ['logout', 'dashboard', 'verification'];
+                                $rutas = [
+                                    'logout',
+                                    'dashboard',
+                                    'verification',
+                                    'search',
+                                    'shared',
+                                    'favorites',
+                                    'group',
+                                    'user',
+                                    'star',
+                                    'send',
+                                    'fetch',
+                                    'message',
+                                    'messages',
+                                    'attachments',
+                                    'download',
+                                    'pusher',
+                                    'auth',
+                                    'seen',
+                                    'contacts',
+                                    'get',
+                                    'update',
+                                    'conversation',
+                                    'delete',
+                                    'avatar',
+                                    'activeStatus',
+                                    'set',
+                                    'verification',
+                                    'notice',
+                                    'verify',
+                                    'password',
+                                    'confirm',
+                                ];
                             @endphp
                             <div class="card sombra p-5">
+
                                 @foreach ($permission as $key => $route)
                                     @php
                                         $inicio = explode('.', $route->name);
+                                        $result = array_diff($inicio, $rutas);
                                     @endphp
-                                    @if ($inicio[0] != 'logout' && $inicio[0] != 'dashboard')
+                                    @if ($result)
                                         @if ($uri != $inicio[0])
-                                            <h2>{{ $inicio[0] }}</h2>
+                                            <h2>@lang(ucfirst($inicio[0])) </h2>
                                             <hr>
                                         @endif
                                         <tr>
