@@ -30,19 +30,6 @@
         </div>
     </div>
     <div class="card p-3" id="cita" hidden>
-        <div class="page-header">
-            <div class="content-page-header">
-                <div class="list-btn">
-                    <ul class="filter-list">
-                        <li>
-                            <a href="#" class="btn btn-primary" data-bs-action="{{ route('citas.store') }}"
-                                data-bs-toggle="modal" data-bs-target="#add_event">@lang('Create Event')</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="card-body">
                 <div id="calendar"></div>

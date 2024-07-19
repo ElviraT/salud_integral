@@ -123,13 +123,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/citas/destroy/{cita}', [CitaController::class, 'destroy'])->name('citas.destroy');
     Route::get('/citas-mostrar/{id}', [CitaController::class, 'mostrar'])->name('citas.mostrar');
     Route::get('/medical-time/{id}', [CitaController::class, 'medical_time']);
-    Route::get('/consulta/{id}', [CitaController::class, 'consulta']);
-    Route::get('/consulta2/{id}/{medical}', [CitaController::class, 'consulta2']);
     // COMBOS
     Route::controller(ComboController::class)->prefix('combo')->group(function () {
         Route::match(['get', 'post'], '/{country}/state', 'state');
         Route::match(['get', 'post'], '/{state}/city', 'city');
         Route::match(['get', 'post'], '/{idUser}/user', 'user');
+        Route::match(['get', 'post'], '/{idPatient}/familiar', 'familiar');
+        Route::match(['get', 'post'], '/{idService}/duracion', 'duracion');
     });
 });
 

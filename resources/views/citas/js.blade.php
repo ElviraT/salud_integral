@@ -1,5 +1,6 @@
 <script src="{{ asset('assets/plugins/select2/js/custom-select.js') }}"></script>
 <script src="{{ asset('js/index.global.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script>
     $("#combo_medical").on('select2:select', function(event) {
         var id = $(this).val();
@@ -12,8 +13,9 @@
                 const clase = {
                     'id': ev.id,
                     'title': ev.title,
-                    'startTime': ev.startime,
-                    'endTime': ev.endtime,
+                    'start': ev.start,
+                    'end': ev.end,
+                    'duration': ev.duration,
                     'color': ev.color, // Fecha de finalización de la recurrencia
 
                 }
@@ -49,6 +51,7 @@
                 initialView: 'timeGridWeek',
                 hiddenDays: noLaborable,
                 droppable: false,
+                forceEventDuration: true,
                 businessHours: array_businessHours,
                 timeZoneName: 'short',
 
@@ -65,6 +68,23 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 editable: true,
+
+                dateClick: function(info) {
+                    const selectedDate = info
+                        .dateStr; // Obtener la fecha seleccionada como cadena
+                    console.log(selectedDate);
+                    const formattedDate = new Date(selectedDate).toLocaleDateString(
+                        'es-ES'); // Formatear la fecha para su visualización en español
+                    const formattedTime = new Date(selectedDate).toLocaleTimeString(
+                        'es-ES'); // Formatear la fecha para su visualización en español
+                    // Actualizar el contenido del modal con la fecha seleccionada
+                    document.getElementById('start').value = formattedDate;
+                    document.getElementById('end').value = formattedDate;
+                    document.getElementById('startime').value = formattedTime;
+                    // console.log(formattedDate);
+                    // Mostrar el modal
+                    $('#add_event').modal('show');
+                },
 
                 eventClick: function(info) {
                     $('#id').val(info.event.id);
@@ -113,23 +133,14 @@
     $(document).on('show.bs.modal', '#add_event', function(e) {
         var modal = $(e.delegateTarget),
             data = $(e.relatedTarget).data();
-        $("#id_patiente, #id_type, #id_day").select2({
+        $("#id_patiente, #id_type, id_familiar").select2({
             dropdownParent: "#add_event"
         });
         $("#method").val('post');
-        $('#startRecur').datetimepicker({
-            useCurrent: false,
-            format: 'DD-MM-YYYY',
-            debug: true,
-        });
-        $('#endRecur').datetimepicker({
-            useCurrent: false,
-            format: 'DD-MM-YYYY',
-            debug: true,
-        })
+
         var id_event = $('#id').val();
         if (id_event != '') {
-            $('.title').text("@lang('Edit Class')");
+            $('.title').text("@lang('Edit Cita')");
             $.getJSON('./citas/' + id_event + '/edit', function(data) {
                 var update = "{{ route('citas.update', ':id') }}";
                 update = update.replace(':id', id_event);
@@ -140,31 +151,19 @@
                 $('#id_type').val(data.id_type).trigger('change.select2');
                 $('#title').val(data.title);
                 $('#id_patient').val(data.id_patient).trigger('change.select2');
-                $('#id_day').attr('disabled', false);
-                $('#id_day').val(data.id_day).trigger('change.select2');
+                $('#id_familiar').val(data.id_familiar).trigger('change.select2');
                 $('#startime').attr('disabled', false).val(data.startime);
                 $('#endtime').attr('disabled', false).val(data.endtime);
                 $('#color').val(data.color);
-
-
             });
         } else {
             $('#btnEliminar').attr('hidden', true);
-            $("#form-enviar").attr('action', data.bsAction);
-            $('.title').text("@lang('Add Class')");
+            var action = "{{ route('citas.store') }}";
+            $("#form-enviar").attr('action', action);
+            $('.title').text("@lang('Add Cita')");
             var medical = $('#combo_medical').val();
-            $.getJSON('./consulta/' + medical, function(data) {
+            $('#id_medical').val(medical);
 
-                $('#id_medical').val(medical);
-                var html = "";
-                html += '<option>Seleccione un Día</option>';
-                $('#id_day').attr('disabled', false);
-                $.each(data, function(index, value) {
-                    html += '<option value="' + value.id + '">' + value.name +
-                        "</option>";
-                });
-                $("#id_day").html(html);
-            });
         }
     });
     $(document).on('hidden.bs.modal', '#add_event', function(e) {
@@ -176,99 +175,33 @@
         $('#title').val('');
         $('#id_group').attr('disabled', true);
         $('#id_group').val('').trigger('change.select2');
-        $('#id_day').attr('disabled', true);
-        $('#id_day').val('').trigger('change.select2');
         $('#startime').attr('disabled', true).val('');
         $('#endtime').attr('disabled', true).val('');
         $('#color').val('');
         $('#startRecur').val('');
         $('#endRecur').val('');
     });
-    $(document).ready(function() {
-        $("#id_day").on('select2:select', function(event) {
-            var day = $(this).val();
-            var medical = $('#combo_medical').val();
-            // Enviar una solicitud AJAX para recuperar las subcategorías relacionadas
-            $.ajax({
-                url: './consulta2/' + day + '/' + medical,
-                method: "GET",
-                success: function(data) {
-                    var mensaje =
-                        'Las horas disponibles para este día son de ' + data
-                        .start_hour + ' a ' + data.end_hour;
-                    $('#horas').html(mensaje);
-                    $('#startime').attr('disabled', false);
-                    $('#endtime').attr('disabled', false);
-
-                    // Definir el rango de horas válido
-                    var horaInicio = parseInt(data.start_hour.replace(':',
-                        '')) * 3600;
-                    var horaFin = parseInt(data.end_hour.replace(':', '')) *
-                        3600;
-
-                    // Obtener el input time y su valor
-                    var inputTime = $("#startime");
-                    var inputTime1 = $("#endtime");
-                    var horaInput;
-                    // Función de validación
-                    function validarHora() {
-                        horaInput = parseInt(inputTime.val().replace(':', '')) *
-                            3600;
-                        if (horaInput >= horaInicio && horaInput <= horaFin) {
-                            console.log("Hora válida");
-                            $('#mensaje').attr('hidden', true);
-                        } else {
-                            inputTime.val('');
-                            $('#mensaje').attr('hidden', false);
-                            $('#mensaje').html("Hora no válida");
-                        }
-                    }
-                    // Función de validación
-                    function validarHora2() {
-                        horaInput = parseInt(inputTime1.val().replace(':',
-                            '')) * 3600;
-                        if (horaInput >= horaInicio && horaInput <= horaFin) {
-                            console.log("Hora válida");
-                            $('#mensaje').attr('hidden', true);
-                        } else {
-                            inputTime1.val('');
-                            $('#mensaje').attr('hidden', false);
-                            $('#mensaje').html("Hora no válida");
-                        }
-                    }
-
-                    // Asociar la validación al evento change del input time
-                    inputTime.change(validarHora);
-                    inputTime1.change(validarHora2);
-                },
-                error: function() {
-                    alert("error")
-                }
-            });
-        });
-    });
 
     $(document).ready(function() {
-        $("#id_matter").on('select2:select', function(event) {
-            var matter = $(this).val();
+        $("#id_patient").on('select2:select', function(event) {
+            var patiente = $(this).val();
             var texto = $(this).find('option:selected').text();
-
             // Enviar una solicitud AJAX para recuperar las subcategorías relacionadas
             $.ajax({
-                url: './title/' + matter,
+                url: './combo/' + patiente + '/familiar',
                 method: "GET",
                 success: function(data) {
                     var title = texto;
                     $('#title').val(title);
                     var html = "";
-                    html += '<option>Seleccione un Grupo</option>';
-                    $('#id_group').attr('disabled', false);
+                    html += '<option value="">Seleccione un familiar</option>';
+                    $('#id_familiar').attr('disabled', false);
                     $.each(data, function(index, value) {
                         html += '<option value="' + value.id + '">' +
                             value.name +
                             "</option>";
                     });
-                    $("#id_group").html(html);
+                    $("#id_familiar").html(html);
                 },
                 error: function() {
                     alert("error")
@@ -276,10 +209,27 @@
             });
         });
     });
+
     $(document).ready(function() {
-        $("#id_group").on('select2:select', function(event) {
-            var texto = $(this).find('option:selected').text();
-            $("#title").val($("#title").val() + " - " + texto);
+        $("#id_service").on('select2:select', function(event) {
+            var servicio = $(this).val();
+            // Enviar una solicitud AJAX para recuperar las subcategorías relacionadas
+            $.ajax({
+                url: './combo/' + servicio + '/duracion',
+                method: "GET",
+                success: function(data) {
+                    var horaElemento = $('#startime').val();
+                    var momentoHora = moment(horaElemento, "H:mm:ss");
+                    momentoHora.add(data.time_aprox, 'minutes');
+                    // Format the resulting time
+                    var duracion = momentoHora.format("H:mm:ss");
+                    $('#endtime').val(duracion);
+                    $('#duration').val(data.time_aprox);
+                },
+                error: function() {
+                    alert("error")
+                }
+            });
         });
     });
 </script>

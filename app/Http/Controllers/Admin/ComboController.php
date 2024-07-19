@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Municipality;
 use App\Models\Parish;
+use App\Models\PatientFamily;
+use App\Models\Service;
 use App\Models\State;
 use Illuminate\Http\Request;
 
@@ -33,5 +35,16 @@ class ComboController extends Controller
     {
         $municipalities = Parish::select(['id', 'name'])->where('idMunicipality', $municipality)->get();
         return response()->json($municipalities);
+    }
+
+    public function familiar($patient)
+    {
+        $familiar = PatientFamily::select(['id', 'name'])->where('id_patient', $patient)->get();
+        return response()->json($familiar);
+    }
+    public function duracion($servicio)
+    {
+        $duracion = Service::select(['time_aprox'])->where('id', $servicio)->first();
+        return response()->json($duracion);
     }
 }

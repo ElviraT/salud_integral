@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AppointmentType;
 use App\Models\Cita;
+use App\Models\Color;
 use App\Models\Day;
 use App\Models\Schedules;
+use App\Models\Service;
 use App\Models\User;
+use Brian2694\Toastr\Facades\Toastr;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class CitaController extends Controller
 {
@@ -18,9 +23,10 @@ class CitaController extends Controller
         $medicals = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->join('medicals', 'users.id', '=', 'medicals.id_user')
+            ->join('specialities', 'medicals.id_speciality', '=', 'specialities.id')
             ->where('roles.name', 'Medico')
             ->where('users.status', 1)
-            ->select('medicals.id as id', DB::raw('CONCAT(users.name, " ", users.last_name) AS name'))
+            ->select('medicals.id as id', DB::raw('CONCAT(users.name, " ", users.last_name," - ",specialities.name) AS name'))
             ->get();
         $patients = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
@@ -29,25 +35,27 @@ class CitaController extends Controller
             ->where('users.status', 1)
             ->select('patients.id as id', DB::raw('CONCAT(users.name, " ", users.last_name) AS name'))
             ->get();
+
+        $colores = Color::all();
         $type = AppointmentType::all();
         $days = Day::all();
-        return view('citas.index', compact('medicals', 'days', 'patients', 'type'));
+        $services = Service::all();
+        return view('citas.index', compact('medicals', 'days', 'patients', 'type', 'colores', 'services'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $request['start'] = DateTime::createFromFormat("d/m/Y H:i:s", $request['start'] . ' ' . $request['startime'])->format("Y-m-d H:i:s");
+            $request['end'] = DateTime::createFromFormat("d/m/Y H:i:s", $request['end'] . ' ' . $request['endtime'])->format("Y-m-d H:i:s");
+
+            $cita = Cita::create($request->post());
+            Toastr::success(__('added successfully'),  __('Cita'));
+        } catch (\Illuminate\Database\QueryException $e) {
+            Toastr::error(__('An error occurred please try again'), 'error' . ' ' . $e->getMessage());
+        }
+
+        return Redirect::back();
     }
 
     /**
@@ -92,21 +100,5 @@ class CitaController extends Controller
     {
         $time = Schedules::where('id_medical', $id)->get();
         return response()->json($time);
-    }
-
-    public function consulta($id)
-    {
-        $days = Day::join('schedules', 'days.id', 'schedules.id_day')
-            ->join('medicals', 'schedules.id_medical', 'medicals.id')
-            ->where('medicals.id', $id)
-            ->select(['days.id', 'days.name'])
-            ->get();
-        return response()->json($days);
-    }
-
-    public function consulta2($id, $medical)
-    {
-        $hours = Schedules::where('id_day', $id)->where('id_medical', $medical)->first();
-        return response()->json($hours);
     }
 }

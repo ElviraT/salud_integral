@@ -30,10 +30,37 @@
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="input-block mb-3">
+                                <label>@lang('Familiar')</label>
+                                <select class="form-control form-small select" name="id_familiar" id="id_familiar"
+                                    disabled>
+                                    <option>@lang('Select Familiar')</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="input-block mb-3">
                                 <label>@lang('Type')</label>
                                 <select class="form-control form-small select" name="id_type" id="id_type">
                                     <option>@lang('Select Tipo de cita')</option>
                                     @foreach ($type as $value)
+                                        <option value="{{ $value->id }}"{{ $value->id == 1 ? 'selected' : '' }}>
+                                            {{ $value->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="input-block mb-3">
+                                <label>@lang('Insurance number')</label>
+                                <input class="form-control" type="text" name="n_seguro" id="n_seguro">
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <div class="input-block mb-3">
+                                <label>@lang('Sercices')</label>
+                                <select class="form-control form-small select" name="id_service" id="id_service">
+                                    <option>@lang('Select Service')</option>
+                                    @foreach ($services as $value)
                                         <option value="{{ $value->id }}">{{ $value->name }}</option>
                                     @endforeach
                                 </select>
@@ -41,28 +68,17 @@
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="input-block mb-3">
-                                <label>@lang('Day')</label>
-                                <select class="form-control form-small select" name="id_day" id="id_day" disabled>
-                                    <option>@lang('Select days')</option>
-                                    @foreach ($days as $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <span id="horas" style="color: rgb(230, 133, 6)"></span>
-                        </div>
-                        <div class="col-lg-4 col-12">
-                            <div class="input-block mb-3">
-                                <label>@lang('Start Time')</label>
-                                <input class="form-control" type="time" name="startime" id="startime" disabled>
+                                <label>@lang('Start')</label>
+                                <input class="form-control" type="text" name="start" id="start" readonly>
+                                <input class="form-control" type="text" name="startime" id="startime" readonly>
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="input-block mb-3">
-                                <label>@lang('End Time')</label>
-                                <input class="form-control" type="time" name="endtime" id="endtime" disabled>
+                                <label>@lang('End')</label>
+                                <input class="form-control" type="text" name="end" id="end" readonly>
+                                <input class="form-control" type="text" name="endtime" id="endtime" readonly>
+                                <input type="hidden" name="duration" id="duration">
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">
@@ -70,33 +86,16 @@
                                 <label>@lang('Colors')</label>
                                 <input type="color" id="color" name="color" list="coloresPrimarios"
                                     class="form-control">
-                                {{-- <datalist id="coloresPrimarios">
+                                <datalist id="coloresPrimarios">
                                     @foreach ($colores as $value)
                                         <option value="{{ $value->name }}">{{ $value->name }}</option>
                                     @endforeach
-                                </datalist> --}}
+                                </datalist>
                             </div>
                         </div>
                         <div class="col-12">
-                            <span id="mensaje" style="color: darkred" hidden></span>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="input-block mb-3">
-                                <label>@lang('Start Recur')</label>
-                                <div class="cal-icon cal-icon-info">
-                                    <input type="text" name="startRecur" id="startRecur"
-                                        class="datetimepicker form-control" placeholder="Select Date">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="input-block mb-3">
-                                <label>@lang('End Recur')</label>
-                                <div class="cal-icon cal-icon-info">
-                                    <input type="text" name="endRecur" id="endRecur"
-                                        class="datetimepicker form-control" placeholder="Select Date">
-                                </div>
-                            </div>
+                            <label>{{ 'Breve Decripción' }}</label>
+                            <textarea name="description" id="description" rows="4" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

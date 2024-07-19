@@ -25,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(Speciality::class);
         $this->call(Relationship::class);
         $this->call(Day::class);
+        $this->call(ColorSeeder::class);
     }
 }
